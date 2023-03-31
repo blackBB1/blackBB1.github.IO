@@ -1,0 +1,74 @@
+# Sample workflow for building and deploying a Jekyll site to GitHub Pages
+name: Deploy Jekyll with GitHub Pages dependencies preinstalled
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
+- 名称：设置 Java JDK
+  使用：actions/setup-java@v1.4.4
+  和：
+    # 在路径上可用的 Java 版本。采用完整或 semver Java 版本，或 1.x 语法（例如 1.8 => Java 8.x）。早期访问版本可以指定为 14-ea、14.0.0-ea 或 14.0.0-ea.28 等形式
+    java版本：
+    # 包类型（jre、jdk、jdk+fx）
+    java-package: # 可选，默认是jdk
+    # 包的架构 (x86, x64)。
+    体系结构：# 可选，默认为 x64
+    # 压缩的 JDK 所在的路径。该路径可以在您的源存储库中或代理上的本地路径。
+    jdkFile: # 可选
+    # pom.xml 文件中 distributionManagement 存储库的 ID。默认是`github`
+    server-id: # 可选，默认为 github
+    # 用于向 Apache Maven 存储库进行身份验证的用户名的环境变量名称。默认为 $GITHUB_ACTOR
+    server-username: # 可选，默认为 GITHUB_ACTOR
+    # 用于向 Apache Maven 存储库进行身份验证的密码或令牌的环境变量名称。默认为 $GITHUB_TOKEN
+    server-password: # 可选，默认为 GITHUB_TOKEN
+    # 写入 settings.xml 文件的路径。默认为 ~/.m2。
+    设置路径：#可选
+    # 要导入的 GPG 私钥。默认为空字符串。
+    gpg-private-key: # 可选
+    # GPG 私钥密码的环境变量名称。默认为 $GPG_PASSPHRASE。
+    gpg-passphrase: # 可选
